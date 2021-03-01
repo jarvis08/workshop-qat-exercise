@@ -44,13 +44,13 @@ Quantize/dequantize를 수행하는 fake quantization 함수 작성
 ### [INT8] Integer-arithmetic Only Inference
 
 ```bash
-# [src/quant_utils.c] `void totalsum_int8_cpu(...)`
-실수 M값을 계산하는 코드를 올바르게 수정
-
 # [src/network.cpp] `void network_predict_int8(...)`
 FP input을 INT8로 변환하도록 quantize_int8_cpu(...) 함수를 삽입
 
-# [src/quant_utils.c] `void totalsum_int8_cpu(...)`
+# [src/quant_utils.c] `void quantized_gemm_int8_cpu(...)`
+실수 M값을 계산하는 코드를 올바르게 수정
+
+# [src/quant_utils.c] `void quantized_gemm_int8_cpu(...)`
 Bias를 더해주는 코드를 삽입
 ```
 
