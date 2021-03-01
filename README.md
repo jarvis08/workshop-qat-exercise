@@ -8,6 +8,25 @@
     - `*.qat.int8.qweights`: quantized model's parameters
     - `*.qat.int8.qparams`: quantization params
 
+## 학습 환경 설정
+
+### Logging/Backup directory 생성
+
+```bash
+$ mkdir log
+$ mkdir backup
+```
+
+### Dataset 설정
+
+```bash
+$ cd data
+$ unzip mnist.zip
+$ cd mnist
+$ find `pwd`/train -name \*.jpg > train.list
+$ find `pwd`/test -name \*.jpg > test.list
+```
+
 ## Exercises
 
 ### [FP DNN -> INT8 DNN] by Fake Quantization
@@ -27,10 +46,10 @@ Min/max 값을 지수 평균으로 누적하는 ema 함수 작성
 
 ```bash
 # [src/network.cpp] `void network_predict_int8(...)`
-FP input을 INT8로 변환하도록 quantize_int8_cpu(...) 함수를 사용
+FP input을 INT8로 변환하도록 quantize_int8_cpu(...) 함수를 삽입
 
 # [src/quant_utils.c] `void totalsum_int8_cpu(...)`
-실수 M값을 계산하는 코드를 올바르게 작성
+실수 M값을 계산하는 코드를 올바르게 수정
 
 # [src/quant_utils.c] `void totalsum_int8_cpu(...)`
 Bias를 더해주는 코드를 삽입
@@ -38,22 +57,29 @@ Bias를 더해주는 코드를 삽입
 
 ## Commands
 
+### 컴파일
+
+```bash
+$ make
+```
+
 ### Pre-training FP model
 
 ```bash
-# Train
+# FP Train
 ./darknet classifier train_randseq cfg/mnist.data cfg/mnist_fc4.cfg
 
-# Validate
+# FP Validate
 ./darknet classifier valid cfg/mnist.data cfg/mnist_fc4.cfg backup/mnist_fc4.weights
 ```
 
 ### Quantization Aware Training
 
 ```bash
-# Train
+# QAT
 ./darknet classifier qat_int8 cfg/mnist.data cfg/mnist_fc4.cfg backup/mnist_fc4.weights
 
-# Validate
+# INT8 Validate
 ./darknet classifier qat_int8 cfg/mnist.data cfg/mnist_fc4.cfg backup/mnist_fc4.qat.int8.qweights  backup/mnist_fc4.qat.int8.qparams
 ```
+
