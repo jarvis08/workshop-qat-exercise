@@ -177,6 +177,7 @@ layer make_connected_layer_quant(int batch, int inputs, int outputs, ACTIVATION 
     l.weights_int8 = calloc(outputs*inputs, sizeof(int8_t));
     l.biases_int32 = calloc(outputs, sizeof(int32_t));
     l.output_int8 = calloc(batch*outputs, sizeof(int8_t));
+    l.output_int32 = calloc(batch*outputs, sizeof(int32_t));
     l.qs = calloc(3, sizeof(float));
     l.qz = calloc(3, sizeof(int8_t));
     l.ema_init = calloc(10, sizeof(int));
@@ -264,7 +265,6 @@ layer make_connected_layer_quant(int batch, int inputs, int outputs, ACTIVATION 
     l.weights_int8_gpu = cuda_make_array_int8(l.weights_int8, outputs*inputs);
     l.output_int8_gpu = cuda_make_array_int8(l.output_int8, batch*outputs);
 
-    l.output_int32 = calloc(batch*outputs, sizeof(int32_t));
     l.output_int32_gpu = cuda_make_array_int32(l.output_int32, outputs*batch);
 
     if (adam) {
@@ -373,11 +373,13 @@ void forward_connected_layer_int8(layer l, network net, int dequant)
     int n = l.outputs;
 
     fill_cpu_int8(l.outputs*l.batch, 0, l.output_int8, 1);
+    fill_cpu_int32(l.outputs*l.batch, 0, l.output_int32, 1);
     int8_t *a = net.input_int8;
     int8_t *b = l.weights_int8;
     int8_t *c = l.output_int8;
+    int32_t *c32 = l.output_int32;
     int32_t *bias = l.biases_int32;
-    gemm_nt_quant(m,n,k,a,k,b,k,c,n,bias,l.qs,l.qz);
+    quantized_gemm_int8_cpu(m, n, k, a, b, c, c32, l.biases_int32, l.qs, l.qz, 1);
     if(dequant) dequantize_matrix(l.output_int8, l.output, m, n, l.qs[2], l.qz[2]);
 }
 

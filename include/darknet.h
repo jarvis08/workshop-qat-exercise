@@ -153,6 +153,7 @@ struct layer{
     int8_t *output_int8;
     int8_t *weights_int8;
     int32_t *biases_int32;
+    int32_t *output_int32;
     float* fake_int_weights;
 
     // INT4
@@ -406,7 +407,6 @@ struct layer{
     int8_t *output_int8_gpu;       // calloc allocate
     int4_t *output_int4_gpu;       // malloc allocate
 
-    int32_t *output_int32;        // calloc allocate [q1(i, j) * q2(j, k)]
     int32_t *output_int32_gpu;    // cuda allocate   [q1(i, j) * q2(j, k)]
 
     int *indexes_gpu;
@@ -816,6 +816,7 @@ void forward_network_qparams_staged(network *net, int stage);
 
 // quantization cpu
 void fill_cpu_int8(int N, int8_t ALPHA, int8_t * X, int INCX);
+void fill_cpu_int32(int N, int32_t ALPHA, int32_t * X, int INCX);
 pthread_t load_data_sequence(load_args args);
 pthread_t load_random_data_sequence(load_args args);
 pthread_t load_data_sequence_without_preprocessing(load_args args);

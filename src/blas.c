@@ -199,6 +199,12 @@ void fill_cpu_int8(int N, int8_t ALPHA, int8_t *X, int INCX)
     for(i = 0; i < N; ++i) X[i*INCX] = ALPHA;
 }
 
+void fill_cpu_int32(int N, int32_t ALPHA, int32_t *X, int INCX)
+{
+    int i;
+    for(i = 0; i < N; ++i) X[i*INCX] = ALPHA;
+}
+
 void deinter_cpu(int NX, float *X, int NY, float *Y, int B, float *OUT)
 {
     int i, j;
