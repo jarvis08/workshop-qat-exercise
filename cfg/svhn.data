@@ -1,6 +1,0 @@
-classes=10
-train  = data/svhn/train.list
-valid  = data/svhn/test.list
-labels = data/svhn/labels.txt
-backup = backup/
-top=2

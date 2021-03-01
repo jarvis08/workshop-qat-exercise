@@ -1,6 +1,0 @@
-classes=10
-train  = data/mnist/train.list
-valid  = data/mnist/test_10.list
-labels = data/mnist/labels.txt
-backup = backup/
-top=2
