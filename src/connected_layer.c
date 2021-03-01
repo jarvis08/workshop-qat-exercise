@@ -528,7 +528,7 @@ void quantization_aware_training_connected_layer_int8(layer l, network net)
     if(step > net.qat_init_step) {
         float _min, _max;
         get_min_max_cpu(l.weights, &_min, &_max, k * n);
-        fake_quantize_int4(l.weights, k * n, _min, _max);
+        fake_quantize_int8(l.weights, k * n, _min, _max);
     }
 
     gemm(0,1,m,n,k,1,a,k,b,k,1,c,n);
