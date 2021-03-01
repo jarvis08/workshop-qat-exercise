@@ -176,19 +176,7 @@ int32_t shifting(int32_t x, int32_t exponent) {
     return ShiftRight(x, exponent) + BitAnd(MaskIfGreaterThan(remainder, threshold), one);
 }
 
-void totalsum_int4_cpu(const int M, const int N, const int K,
-                       const int4_t *lhs,
-                       const int4_t *rhs,
-                       int4_t *C,
-                       const int32_t *C32,
-                       const int32_t *biases,
-                       const float *QS, const int4_t *QZ,
-                       const int mode)
-{
-    // 작성 X
-}
-
-void totalsum_int8_cpu(const int M, const int N, const int K,
+void quantized_gemm_int8_cpu(const int M, const int N, const int K,
                        const int8_t *lhs,
                        const int8_t *rhs,
                        int8_t *C,
@@ -232,6 +220,8 @@ void totalsum_int8_cpu(const int M, const int N, const int K,
     }
 
     if ( mode ) {
+        gemm_nt_int8(M, N, K, 1, lhs, K, rhs, K, C32, N); 
+
         int _col = 0;
         #pragma omp parallel for
         for (col = 0; col < N; col++) {
@@ -280,6 +270,30 @@ void totalsum_int8_cpu(const int M, const int N, const int K,
     }
     free(a1row);
     free(a2col);
+}
+
+void totalsum_int4_cpu(const int M, const int N, const int K,
+                       const int4_t *lhs,
+                       const int4_t *rhs,
+                       int4_t *C,
+                       const int32_t *C32,
+                       const int32_t *biases,
+                       const float *QS, const int4_t *QZ,
+                       const int mode)
+{
+    // 작성 X
+}
+
+void totalsum_int8_cpu(const int M, const int N, const int K,
+                       const int8_t *lhs,
+                       const int8_t *rhs,
+                       int8_t *C,
+                       const int32_t *C32,
+                       const int32_t *biases,
+                       const float *QS, const int8_t *QZ,
+                       const int mode)
+{
+    // 작성 X
 }
 
 void float_to_int32(float *FP, int32_t *INT32, int n)
@@ -681,4 +695,3 @@ void test_fq()
     free(B);
     exit(0);
 }
-
