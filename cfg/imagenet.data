@@ -1,0 +1,7 @@
+classes=1000
+train  = data/imagenet/train.list
+valid  = data/imagenet/val.list
+labels = data/imagenet/labels.txt
+names  = data/imagenet/name.list
+backup = backup/
+top=2

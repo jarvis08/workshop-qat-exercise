@@ -1,0 +1,7 @@
+classes=200
+train  = data/tiny-imagenet-200/train.list
+valid  = data/tiny-imagenet-200/val.list
+labels = data/tiny-imagenet-200/wnids.txt
+names  = data/tiny-imagenet-200/name.list
+backup = backup/
+top=2
