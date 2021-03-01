@@ -367,6 +367,24 @@ void gemm_nn(int M, int N, int K, float ALPHA,
     }
 }
 
+void gemm_nt_int8(int M, int N, int K, float ALPHA,
+        int8_t *A, int lda,
+        int8_t *B, int ldb,
+        int32_t *C, int ldc)
+{
+    int i,j,k;
+    #pragma omp parallel for
+    for(i = 0; i < M; ++i){
+        for(j = 0; j < N; ++j){
+            register float sum = 0;
+            for(k = 0; k < K; ++k){
+                sum += ALPHA*A[i*lda+k]*B[j*ldb + k];
+            }
+            C[i*ldc+j] += sum;
+        }
+    }
+}
+
 void gemm_nt(int M, int N, int K, float ALPHA,
         float *A, int lda,
         float *B, int ldb,
@@ -1072,12 +1090,10 @@ void test_gpu_accuracy_float()
 
     /*
     gemm_cpu(TA, TB, m, n, k, 1, A, lda, B, ldb, 1, C, n);
-
     printf("cpu gemm\n");
     printprint(A, m, k);
     printprint(B, k, n);
     printprint(C, m, n);
-
     free(A);
     free(B);
     free(C);
@@ -1292,19 +1308,15 @@ int test_gpu_blas()
 {
     /*
        test_gpu_accuracy(0,0,10,576,75);
-
        test_gpu_accuracy(0,0,17,10,10);
        test_gpu_accuracy(1,0,17,10,10);
        test_gpu_accuracy(0,1,17,10,10);
        test_gpu_accuracy(1,1,17,10,10);
-
        test_gpu_accuracy(0,0,1000,10,100);
        test_gpu_accuracy(1,0,1000,10,100);
        test_gpu_accuracy(0,1,1000,10,100);
        test_gpu_accuracy(1,1,1000,10,100);
-
        test_gpu_accuracy(0,0,10,10,10);
-
        time_gpu(0,0,64,2916,363);
        time_gpu(0,0,64,2916,363);
        time_gpu(0,0,64,2916,363);
@@ -1327,3 +1339,4 @@ int test_gpu_blas()
     return 0;
 }
 #endif
+

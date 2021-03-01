@@ -28,6 +28,11 @@ void gemm_cpu(int TA, int TB, int M, int N, int K, float ALPHA,
         float BETA,
         float *C, int ldc);
         
+void gemm_nt_int8(int M, int N, int K, float ALPHA,
+        int8_t *A, int lda,
+        int8_t *B, int ldb,
+        int32_t *C, int ldc);
+
 void gemm_nt(int M, int N, int K, float ALPHA, 
         float *A, int lda, 
         float *B, int ldb,
