@@ -1245,7 +1245,7 @@ float *network_predict_int8(network *net, float *input)
         quantized_input[i] = 0;
     }
 
-    // input을 quantize 시켜서 전달하도록 소스 작성
+    // net->input을 quantize 하도록 quantize_int8_cpu(...) 함수 사용
 
     net->input_int8 = quantized_input;
 
