@@ -204,7 +204,8 @@ void quantized_gemm_int8_cpu(const int M, const int N, const int K,
     int row, depth, col;
 
     // line 207: FP로 표현되는 M 계산을 0이 아닌, 올바른 계산으로 수정하세요.
-    const float real_M = 0;
+    //const float real_M = 0;
+    const float real_M = QS[0] * QS[1] / QS[2];
 
     int32_t quantized_M;
     int right_shift;
@@ -242,6 +243,7 @@ void quantized_gemm_int8_cpu(const int M, const int N, const int K,
                 sumQ1Q2 = C32[row * o_stride + col];
                 subSum = (NZ1Z2 - QZ[0] * a2col[col] - QZ[1] * a1row[row] + sumQ1Q2);
                 subSum = multiply_M(subSum, quantized_M);
+                subSum += biases[col];
 
                 total = shifting(subSum, right_shift);
                 totalSum = QZ[2] + total;
@@ -395,7 +397,26 @@ void set_batch_range(float* mat, float* min, float* max, const int n)
 
 void ema_cpu(const float *mat, float *pmin, float *pmax, const int n, const float smooth_param, const int is_relu)
 {
-    // Exponential Moving Average를 계산하는 코드를 작성하세요.
+    // Exponential Moving Average를 계산하는 코드를 완성하세요.
+    int i;
+    float _max = mat[0];
+    if(is_relu) {
+        for(i = 0; i < n; ++i)
+        {
+           if(mat[i] > _max) _max = mat[i]; 
+        }
+        // line 408: relu의 경우 min 값은 항상 0이다.
+        // line 409: max값을 누적하는 변수에 ema를 적용하여 max 값을 갱신한다.
+    } else {
+        float _min = mat[0];
+        for(i = 0; i < n; ++i)
+        {
+           if(mat[i] > _max) _max = mat[i]; 
+           else if(mat[i] < _min) _min = mat[i]; 
+        }
+        // line 417: min 값을 누적하는 변수에 ema를 적용하여 min 값을 갱신한다.
+        // line 418: max 값을 누적하는 변수에 ema를 적용하여 max 값을 갱신한다.
+    }
 }
 
 void clamped_ema(float *origin_mat, int mat_size, float *min_max_arr, const float clamping_level, const float smooth_param)
