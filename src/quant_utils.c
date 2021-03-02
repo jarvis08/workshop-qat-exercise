@@ -203,7 +203,7 @@ void quantized_gemm_int8_cpu(const int M, const int N, const int K,
     int32_t total = 0;
     int row, depth, col;
 
-    // line 209: FP로 표현되는 M 계산을 0이 아닌, 올바른 계산으로 수정하세요.
+    // line 207: FP로 표현되는 M 계산을 0이 아닌, 올바른 계산으로 수정하세요.
     const float real_M = 0;
 
     int32_t quantized_M;
@@ -242,7 +242,6 @@ void quantized_gemm_int8_cpu(const int M, const int N, const int K,
                 sumQ1Q2 = C32[row * o_stride + col];
                 subSum = (NZ1Z2 - QZ[0] * a2col[col] - QZ[1] * a1row[row] + sumQ1Q2);
                 subSum = multiply_M(subSum, quantized_M);
-                subSum += biases[col];
 
                 total = shifting(subSum, right_shift);
                 totalSum = QZ[2] + total;
