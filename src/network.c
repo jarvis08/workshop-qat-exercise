@@ -1238,16 +1238,7 @@ float *network_predict_int8(network *net, float *input)
     net->input = input;
     
     layer first = net->layers[0];
-    int i, len_input;
-    len_input = net->batch * net->inputs;
-    int8_t quantized_input[len_input];
-    for(i = 0; i < len_input; i++) {
-        quantized_input[i] = 0;
-    }
-
-    // net->input을 quantize 하도록 quantize_int8_cpu(...) 함수 사용
-
-    net->input_int8 = quantized_input;
+    // line 1241: net->input을 quantize 하여 net->input_int8에 저장하도록 quantize_int8_cpu(...) 함수를 사용하세요.
 
     net->truth = 0;
     net->train = 0;
@@ -2379,7 +2370,6 @@ void distribute_weights(layer l, layer base)
 
 
 /*
-
    void pull_updates(layer l)
    {
    if(l.type == CONVOLUTIONAL){
@@ -2391,7 +2381,6 @@ void distribute_weights(layer l, layer base)
    cuda_pull_array(l.weight_updates_gpu, l.weight_updates, l.outputs*l.inputs);
    }
    }
-
    void push_updates(layer l)
    {
    if(l.type == CONVOLUTIONAL){
@@ -2403,7 +2392,6 @@ void distribute_weights(layer l, layer base)
    cuda_push_array(l.weight_updates_gpu, l.weight_updates, l.outputs*l.inputs);
    }
    }
-
    void update_layer(layer l, network net)
    {
    int update_batch = net.batch*net.subdivisions;
@@ -2426,7 +2414,6 @@ void distribute_weights(layer l, layer base)
    axpy_cpu(l.outputs*l.inputs, 1, l.weight_updates, 1, base.weight_updates, 1);
    }
    }
-
    void distribute_updates(layer l, layer base)
    {
    if(l.type == CONVOLUTIONAL || l.type == DECONVOLUTIONAL){

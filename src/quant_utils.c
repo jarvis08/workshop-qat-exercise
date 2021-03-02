@@ -78,7 +78,13 @@ void fake_quantize_int4_cpu(float* input, const int n, const float QS, const int
 
 void fake_quantize_int8_cpu(float* input, const int n, const float QS, const int8_t QZ)
 {
-    // input 배열을 Quantize, dequantize 하는 과정을 작성하세요.
+    // input matirx를 quantize, dequantize 하는 과정을 작성하세요.
+    int i;
+    // 아래 #pragma ... 라인은 나머지 코드를 모두 작성한 후 주석을 제거해 주세요.
+    //#pragma omp parallel for
+    // line 85: input 배열의 크기 만큼 반복문을 시작
+    // line 86: input matrix 요소 하나를 quantized 값으로 변경
+    // line 87: qauntized 요소를 다시 dequantize하여 input matrix에 삽입
 }
 
 void fake_quantize_int4(float *input, const int n, const float _min, const float _max)
@@ -185,8 +191,6 @@ void quantized_gemm_int8_cpu(const int M, const int N, const int K,
                        const float *QS, const int8_t *QZ,
                        const int mode)
 {
-    // mode = 0 :: nn (lhs, rhs: RowMajor)
-    // mode = 1 :: nt (lhs: Rowmajor, rhs: ColMajor)
     int l_stride = K;
     int r_stride = 0;
     int o_stride = N;
@@ -199,7 +203,7 @@ void quantized_gemm_int8_cpu(const int M, const int N, const int K,
     int32_t total = 0;
     int row, depth, col;
 
-    // 아래 Floating Point로 표현되는 M 계산을 0이 아닌, 올바른 계산으로 수정하세요.
+    // line 209: FP로 표현되는 M 계산을 0이 아닌, 올바른 계산으로 수정하세요.
     const float real_M = 0;
 
     int32_t quantized_M;
@@ -238,6 +242,7 @@ void quantized_gemm_int8_cpu(const int M, const int N, const int K,
                 sumQ1Q2 = C32[row * o_stride + col];
                 subSum = (NZ1Z2 - QZ[0] * a2col[col] - QZ[1] * a1row[row] + sumQ1Q2);
                 subSum = multiply_M(subSum, quantized_M);
+                subSum += biases[col];
 
                 total = shifting(subSum, right_shift);
                 totalSum = QZ[2] + total;
