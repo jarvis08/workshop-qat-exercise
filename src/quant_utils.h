@@ -16,6 +16,15 @@ void fake_quantize_int8(float *input, const int n, const float _min, const float
 void fake_quantize_int4_cpu(float* input, const int n, const float QS, const int QZ);
 void fake_quantize_int8_cpu(float* input, const int n, const float QS, const int8_t QZ);
 
+void quantized_gemm_int8_cpu(const int M, const int N, const int K,
+                       const int8_t *lhs,
+                       const int8_t *rhs,
+                       int8_t *C,
+                       const int32_t *C32,
+                       const int32_t *biases,
+                       const float *QS, const int8_t *QZ,
+                       const int mode);
+
 void totalsum_int4_cpu(const int M, const int N, const int K,
                        const int4_t *lhs,
                        const int4_t *rhs,
