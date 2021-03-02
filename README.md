@@ -31,11 +31,11 @@ $ find `pwd`/test -name \*.jpg > test.list
 ### [FP DNN -> INT8 DNN] by Fake Quantization
 
 ```bash
-# [src/gemm.cpp] `void cal_qsz(...)`
-min, max 값을 사용하여 S와 Z를 계산하고, 저장하는 함수 작성
-
 # [src/quant_utils.c] `void ema_cpu(...)`
 Min/max 값을 지수 평균으로 누적하는 ema 함수 작성
+
+# [src/gemm.cpp] `void cal_qsz(...)`
+min, max 값을 사용하여 S와 Z를 계산하고, 저장하는 함수 작성
 
 # [src/quant_utils.c] `void fake_quantize_int8_cpu(...)`
 Quantize/dequantize를 수행하는 fake quantization 함수 작성
