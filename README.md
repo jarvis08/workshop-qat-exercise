@@ -90,6 +90,6 @@ $ make
 ./darknet classifier qat_int8 cfg/mnist.data cfg/mnist_fc4.cfg backup/mnist_fc4.weights
 
 # INT8 Validation
-./darknet classifier qat_int8 cfg/mnist.data cfg/mnist_fc4.cfg backup/mnist_fc4.qat.int8.qweights  backup/mnist_fc4.qat.int8.qparams
+./darknet classifier valid_int8 cfg/mnist.data cfg/mnist_fc4.cfg backup/mnist_fc4.qat.int8.qweights  backup/mnist_fc4.qat.int8.qparams
 ```
 
