@@ -1505,19 +1505,20 @@ void quantization_aware_training_int8(char *datacfg, char *cfgfile, char *weight
         fprintf(fp_log, buff_log);
 
         free_data(train);
-        if(*net->seen/N > epoch){
-            epoch = *net->seen/N;
-            random_shuffle(args.data_map, N);
+        if(get_current_batch(net) == 79) break;
+        //if(*net->seen/N > epoch){
+        //    epoch = *net->seen/N;
+        //    random_shuffle(args.data_map, N);
 
-            char buff_log[256];
-            sprintf(buff_log, ">>> %d epoch done, %lf sec\n", epoch, what_time_is_it_now() - epoch_start);
-            fprintf(stderr, "%s", buff_log);
-            fprintf(fp_log, buff_log);
-            epoch_start = what_time_is_it_now();
-            
-            // QAT only 1 epoch
-            if(epoch == net->qat_end_epoch) break;
-        }
+        //    char buff_log[256];
+        //    sprintf(buff_log, ">>> %d epoch done, %lf sec\n", epoch, what_time_is_it_now() - epoch_start);
+        //    fprintf(stderr, "%s", buff_log);
+        //    fprintf(fp_log, buff_log);
+        //    epoch_start = what_time_is_it_now();
+        //    
+        //    // QAT only 1 epoch
+        //    if(epoch == net->qat_end_epoch) break;
+        //}
     }
     free(args.data_map);
 
