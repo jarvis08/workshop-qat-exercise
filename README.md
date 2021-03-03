@@ -7,6 +7,7 @@
 - Quantization files
     - `*.qat.int8.qweights`: quantized model's parameters
     - `*.qat.int8.qparams`: quantization params
+    - `*.qat.int8.weights`: FP model's params after QAT
 
 ## 학습 환경 설정
 
@@ -24,6 +25,16 @@ $ unzip mnist.zip
 $ cd mnist
 $ find `pwd`/train -name \*.jpg > train.list
 $ find `pwd`/test -name \*.jpg > test.list
+```
+
+### 환경설정 확인
+
+```bash
+# Compile
+$ make
+
+# FP Validation
+$ ./darknet classifier valid cfg/mnist.data cfg/mnist_fc4.cfg backup/mnist_fc4.weights
 ```
 
 ## Exercises
@@ -56,7 +67,7 @@ Bias를 더해주는 코드를 삽입
 
 ## Commands
 
-### 컴파일
+### Compile
 
 ```bash
 $ make
