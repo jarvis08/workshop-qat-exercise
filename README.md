@@ -55,7 +55,7 @@ Quantize/dequantize를 수행하는 fake quantization 함수 작성
 ### [INT8] Integer-arithmetic Only Inference
 
 ```bash
-# [src/network.cpp] `void network_predict_int8(...)`
+# [src/network.c] `void network_predict_int8(...)`
 FP input을 INT8로 변환하도록 quantize_int8_cpu(...) 함수를 삽입
 
 # [src/quant_utils.c] `void quantized_gemm_int8_cpu(...)`
@@ -73,7 +73,7 @@ Bias를 더해주는 코드를 삽입
 $ make
 ```
 
-### Pre-training FP model
+### Pre-training FP model (Exercise)
 
 ```bash
 # FP Training
@@ -83,7 +83,7 @@ $ make
 ./darknet classifier valid cfg/mnist.data cfg/mnist_fc4.cfg backup/mnist_fc4.weights
 ```
 
-### Quantization Aware Training
+### Quantization Aware Training (Exercise)
 
 ```bash
 # Fine-tuning with QAT
