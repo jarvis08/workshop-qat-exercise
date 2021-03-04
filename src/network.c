@@ -1238,13 +1238,14 @@ float *network_predict_int8(network *net, float *input)
     net->input = input;
     
     layer first = net->layers[0];
-    // line 1248: 아래 정보를 활용, net->input을 quantize 하여 net->input_int8에 저장하도록 quantize_int8_cpu(...) 함수를 사용하세요.
-    // net->input      :: FP input mat
-    // net->input_int8 :: INT input mat
-    // net->batch      :: batch size
-    // net->inputs     :: # of elements per data
-    // first.qs        :: 1'st layer's array of S
-    // first.qz        :: 1'st layer's array of Z
+    // line 1249: 아래 정보를 활용, net->input을 quantize 하여 net->input_int8에 저장하도록 quantize_int8_cpu(...) 함수를 사용하세요.
+    // void quantize_int8_cpu(...) :: src/quant_utils.c에 위치
+    // net->input                  :: FP input mat
+    // net->input_int8             :: INT input mat
+    // net->batch                  :: batch size
+    // net->inputs                 :: # of elements per data
+    // first.qs                    :: 1'st layer's array of S
+    // first.qz                    :: 1'st layer's array of Z
 
     net->truth = 0;
     net->train = 0;
