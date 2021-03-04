@@ -39,6 +39,8 @@ $ ./darknet classifier valid cfg/mnist.data cfg/mnist_fc4.cfg backup/mnist_fc4.w
 
 ## Exercises
 
+대부분 실습에 대한 힌트가 소스 코드에 주석으로 기입되어 있으며, 그렇지 않은 경우, PT 파일을 참고.
+
 ### [FP DNN -> INT8 DNN] by Fake Quantization
 
 ```bash
@@ -73,7 +75,9 @@ Bias를 더해주는 코드를 삽입
 $ make
 ```
 
-### Pre-training FP model (Exercise)
+### Pre-training FP model 
+
+학습된 모델이 `backup` 디렉토리에 존재하므로, 재학습 불필요.
 
 ```bash
 # FP Training
